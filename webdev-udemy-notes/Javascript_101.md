@@ -66,3 +66,58 @@ Use `console.log("String to fill in")` to print to the console log, rather than,
 - Function arguments enable extensibility
 - **Arguments** -- functions can have arguments and they get called with arguments
 - **Parameters** -- the values that are fed into arguments
+
+## Data Structures
+- **Arrays** - like python lists, start at 0
+  `var n_array = ["tiger", "cat", "bear", "bird"]`
+  - Arrays with mixed types are less performant
+  - Can create arrays of arrays
+  - `n_array.shift()` returns the first element of the array, and takes it out of the list
+  - `n_array.pop()` returns the last element of the array, pops it off the list
+  - `n_array.push('new_element')` returns the new length of the array after adding 'new_element' to the end of the array
+  - `n_array.concat(['new','items'])` adds those items onto the end of the array, but needs to be assigned to the variable because it doesn't change in-place
+  - `n_array.sort()` returns a sorted array
+- **Objects** - collections of property, like python dictionary
+  `var user = {name:"John",age:34,hobby:"Soccer",isMarried:false}`
+  - supports both dot notation (`user.name`) and bracket notation (`user['age']`)
+  - Arrays are really just objects with numbered keys
+  - Ojects can also include functions -- these are methods
+
+## Loops
+```javascript
+
+var todos = [
+  "clean room",
+  "brush teeth",
+  "exercise",
+  "study",
+  "eat"
+];
+
+for (var i=0; i < todos.length; i++) {
+  console.log(todos[i], i) 
+}
+
+var counterOne = 0;
+while (counterOne <10) {
+  console.log(counterOne);
+  counterOne++; // if you want to subtract, use `--`
+}
+
+var counterTwo = 10;
+do {
+  console.log(counterTwo);
+  counterTwo--;
+} while (counterTwo > 0);
+
+todos.forEach(function(todo, i) { 
+  console.log(todo, i); 
+}) // Kind of works like enumerate
+
+// Alternately, declare your function outside
+function logTodos(todo, i) { 
+  console.log(todo, i); 
+} 
+todos.forEach(logTodos)
+```
+
