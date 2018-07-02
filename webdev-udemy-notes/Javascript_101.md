@@ -121,3 +121,34 @@ function logTodos(todo, i) {
 todos.forEach(logTodos)
 ```
 
+### Ternary operators
+A quicker way to do if/else conditions. Syntax is as follows:
+  `condition ? "value if true" : "value if false"`
+
+### Switch operator
+Switch is a keyword that operates within a function, basically in place of an elif.
+  ```javascript
+  function moveCommand(direction) {
+  var whatHappens;
+  switch (direction) {
+    case "north":
+      whatHappens = "you encounter a monster";
+      break
+    case "south":
+      whatHappens = "you have returned home";
+      break
+    case "west":
+      whatHappens = "you've forged the river";
+      break
+    case "east":
+      whatHappens = "you have died of dysentery";
+      break
+    default:
+      whatHappens = "please enter a valid direction";
+    }
+    return whatHappens;
+  }
+  ```
+The `break` command moves us out of the switch statement, and jumps to the return.
+
+
