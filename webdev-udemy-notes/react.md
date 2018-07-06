@@ -69,3 +69,16 @@ class Hello extends Component {
 }
 ```
 JSX uses `className` rather than the HTML "class" because `class` is a reserved Javascript keyword.
+
+## State
+State is an object that describes your application as it relates to the data flow into and out of components at any given time.
+
+**Props** are simply things that come out of state.
+    STATE ---> PROPS
+
+- State usually lives in the parent component, so it can pass to children.
+- When you create events to change state, `event.target.value` will return the value of the event.
+- As a rule, if you are making your own functions within a React class, you should use the arrow function syntax.
+- Components with state are sometimes called "smart components"
+
+## REST APIs
