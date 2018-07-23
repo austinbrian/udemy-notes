@@ -52,3 +52,119 @@ Promises result from fetch requests. *Promise* says that it is making a request 
 
 ## Promises, continued
 New feature as a part of ES6, replacing callbacks.
+A promise is an object that may produce a single value some time in the future. The value can be either a resolved value, or a reason that it's not resolved.
+
+Promises can be in one of three states:
+- Fulfilled
+- Rejected
+- Pending
+
+### Promise Syntax
+```js
+const promise = new Promise((resolve, reject) => {
+    if (true) {
+        resolve("Stuff worked");
+    } else {
+        reject("Error, it broke")
+    }
+})
+
+// then to evaluate the promise
+promise.then(result => console.log(result)); // this will log "Stuff worked"
+```
+
+Promises can be chained together, allowing you to execute multiple functions on one returned object.
+
+```js
+promise
+    .then(result => result + '!')
+    .then(result2 => {
+        console.log(result2);
+    })
+// this results in: Stuff Worked!
+```
+
+Errors can also be caught by promises using `.catch(() => console.log('error!'))`, which catches any errors above the `catch` statement.
+
+Promises are like event listeners, except that they can only ever succeed or fail *once*. This makes them especially apt for asynchronous success or failure, such as API calls. More interested in reacting to the outcome of things
+
+**Important note**: `fetch` returns a Promise
+
+## Async / Await
+
+Async/await code is syntactic sugar for promises. It allows asynchronous code to look like synchronous code.
+
+The two sets of code block below are equivalent:
+```js
+movePlayer(100, "Left")
+    .then(() => movePlayer(400, 'Left'))
+    .then(() => movePlayer(10, 'Right'))
+    .then(() => movePlayer(330, 'Left'))
+
+
+async function playserStart() {
+    const firstMove = await movePlayer(100, 'Left'); // pause
+    const secondMove = await movePlayer(400, 'Left'); // pause
+    await movePlayer(10, 'Right'); // pause
+    await movePlayer(330, 'Left'); // pause
+}
+```
+Await can be invoked only when a function is declared as an async function. You can put `await` in front of any function that returns a promise.
+
+The keyword says "pause this function until we've resolved this part" every time. If you assign variables for each of these, then the variables will asynchronously hold the values that should be in each of those.
+
+So these two are equivalent:
+```js
+fetch('https://jsonplaceholder.typicode.com/users')
+    .then(resp => resp.json())
+    .then(console.log)
+
+async function fetchUsers() {
+    const resp = await fetch('https://jsonplaceholder.typicode.com/users')
+    const data = await resp.json();
+    console.log(data);
+}
+```
+Let's do one more example, in which we get a range of things. We'll do it using the `Promise.all` syntax, as well as using a set of deconstructed array syntax using async/await.
+
+```js
+const urls =[
+    'https://jsonplaceholder.typicode.com/users'
+    'https://jsonplaceholder.typicode.com/posts'
+    'https://jsonplaceholder.typicode.com/albums'
+]
+
+Promise.all(urls.map(url =>
+    fetch(url).then(resp => resp.json())
+)).then(array => {
+    console.log('users',array[0])
+    console.log('posts',array[1])
+    console.log('albums',array[2])
+}).catch('oops');
+
+
+const getData = async function() {
+    // use a little ES6 destructuring magic
+    const [ users, posts, albums ] = await Promise.all(urls.map(url =>
+        fetch(url).then(resp => resp.json())
+    ))
+    console.log('users',users) // OK since we declared these as variables
+    console.log('posts',posts)
+    console.log('albums',albums)
+}
+```
+Catching errors, unfortunately, requires you to execute these in try/catch blocks.
+
+```js
+const getData = async function() {
+    try {
+        const [ users, posts, albums ] = await Promise.all(urls.map(url =>
+            fetch(url).then(resp => resp.json())
+        ))
+        console.log('users',users)
+        console.log('posts',posts)
+        console.log('albums',albums)
+    } catch (err) {         // have to pass in the error to the catch
+        console.log('oops', err)
+    }
+```
